@@ -1,0 +1,140 @@
+{% extends 'frontend/base.html' %}
+{% load i18n static %}
+
+{% block page_title_option %}
+<div class="text-muted mt-1">{{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+    advance</div>{% endblock page_title_option %}
+{% block page_title_action %}
+<div class="col-auto ms-auto d-print-none">
+    <div class="d-flex">
+        <input type="search" class="form-control d-inline-block w-9 me-3" placeholder="Search…" />
+        <a href="{% url 'advance:advance-create' %}" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" /></svg>
+            New advance
+        </a>
+    </div>
+</div>
+{% endblock page_title_action %}
+{% block content %}
+{% if messages %}
+{% for message in messages  %}
+<div class="alert alert-important alert-{{ message.tags }} alert-dismissible" role="alert">
+    <div class="d-flex">
+        <div>
+            <!-- SVG icon code with class="alert-icon" -->
+        </div>
+        <div>
+            {{ message }}
+        </div>
+    </div>
+    <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+</div>
+{% endfor %}
+{% endif %}
+<div class="row row-cards"> 
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Advance</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table card-table table-vcenter">
+                    <thead>
+                        <td>Status</td>
+                        <td>Description</td>
+                        <td>Category</td>
+                        <td>Project</td>
+                        <td>Date</td>
+                        <td colspan="2" class="text-center"></td>
+                    </thead>
+                    <tbody>
+                        {% for advance in advances %} 
+                        <tr>
+                            <td>
+                                <span class="avatar avatar-sm">{{ advance.status|make_list|first|title }}</span>
+                            </td>
+                            <td>
+                                {{ advance.name }}
+                            </td>
+                            <td class="text-nowrap text-muted">
+                                {{ advance.category }}
+                            </td>
+                            <td class="text-nowrap text-muted">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3" />
+                                    <line x1="12" y1="12" x2="20" y2="7.5" /><line x1="12" y1="12" x2="12" y2="21" />
+                                    <line x1="12" y1="12" x2="4" y2="7.5" /><line x1="16" y1="5.25" x2="8" y2="9.75" />
+                                </svg>
+                                {{ advance.project }}
+                            </td>
+                            <td class="text-nowrap text-muted">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                    <line x1="11" y1="15" x2="12" y2="15"></line>
+                                    <line x1="12" y1="15" x2="12" y2="18"></line>
+                                </svg>
+                                {{ advance.date|date:'d F Y' }}
+                            </td>
+                            <td>
+                                <a href="{% url 'advance:advance-update' uuid=advance.uuid %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" /><line x1="13.5" y1="6.5" x2="17.5" y2="10.5" /></svg>
+                                Edit</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'advance:advance-delete' uuid=advance.uuid %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan=7><p class="text-center">No data found</p></td></tr>
+                        {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% if page_obj.number %}
+<div class="d-flex fixed-bottom mb-5">
+    <ul class="pagination ms-auto">
+        <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+            <a class="page-link"
+                href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <polyline points="15 6 9 12 15 18" /></svg>
+                prev
+            </a>
+        </li>
+        {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+        <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+            <a class="page-link" href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% endif %}">
+                next <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <polyline points="9 6 15 12 9 18" /></svg>
+            </a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+{% block delete %}{% endblock delete %}
+{% endblock content %}

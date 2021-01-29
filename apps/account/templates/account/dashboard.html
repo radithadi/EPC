@@ -1,0 +1,391 @@
+{% extends "frontend/base.html" %}
+{% load i18n static %}
+{% block extra_js %}
+<script src='https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js'></script>
+<script>
+  $(document).ready(function () {
+    var duration = 10
+    var companies_options = {
+      suffix: ' Companies'
+    };
+    var clients_options = {
+      suffix: ' Customer Clients'
+    };
+    var projects_options = {
+      suffix: ' Projects Total '
+    };
+    var projects_open_options = {
+      suffix: ' Projects Open'
+    };
+    var projects_close_options = {
+      suffix: ' Projects Close'
+    };
+
+    let companies = new CountUp('companies', 0, {{ company_count }}, 0, duration, companies_options);
+    let clients = new CountUp('clients', 0, {{ client_count }}, 0, duration, clients_options);
+    let projects = new CountUp('projects', 0, {{ project_count }}, 0, duration, projects_options);
+    let projects_open = new CountUp('projects_open', 0, {{ open_count}} , 0, duration, projects_open_options);
+    let projects_close = new CountUp('projects_close', 0, {{ close_count}}, 0, duration, projects_close_options);
+
+    companies.start()
+    clients.start()
+    projects.start()
+    projects_open.start()
+    projects_close.start()
+  })
+</script>
+{% endblock extra_js %}
+{% block content %}
+<div class="row row-cards">
+  <div class="col-md-6 col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-purple-lt avatar"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+              </svg>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+              <span id="companies">{{ company_count}} Companies</span>
+              <div class="text-muted">
+                <span id="clients">{{ client_count }} Customer Client</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-green-lt avatar">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="18" y1="11" x2="12" y2="5"></line>
+                <line x1="6" y1="11" x2="12" y2="5"></line>
+              </svg>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+              <span id="projects">{{ project_count }} project registered</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto" style="position: relative;">
+            <span class="bg-yellow-lt avatar">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="12" cy="12" r="9" />
+                <line x1="9" y1="10" x2="9.01" y2="10" />
+                <line x1="15" y1="10" x2="15.01" y2="10" />
+                <path d="M9.5 15.25a3.5 3.5 0 0 1 5 0" /></svg> </span>
+          </div>
+          <div class="col-auto">
+            <div class="font-weight-medium">
+              <span id="projects_open">{{ open_count }} Projects Open</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="card card">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto" style="position: relative;">
+            <span class="bg-blue-lt avatar">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="12" cy="12" r="9" />
+                <line x1="9" y1="10" x2="9.01" y2="10" />
+                <line x1="15" y1="10" x2="15.01" y2="10" />
+                <path d="M9.5 15a3.5 3.5 0 0 0 5 0" /></svg>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+              <span id="projects_close">{{ close_count }} Project Close</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card" style="height: calc(20.1rem + 10px)">
+      <h3 class="card-title text-center text-muted mt-2">New Project List</h3>
+      <div class="table-responsive">
+        <table class="table table-vcenter card-table ">
+          <thead>
+            <tr>
+              <th>Project Name</th>
+              <th>Companies</th>
+              <th>Clients</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="text-muted">Companies a</td>
+              <td class="text-muted">Clients a</td>
+              <td class="text-muted">
+                Open
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card" style="height: calc(29rem + 10px)">
+      <h3 class="card-title text-center text-muted mt-2">Last 10 Reimburse</h3>
+      <div class="card-body card-body-scrollable card-body-scrollable-shadow">
+        <div class="divide-y-4">
+          <div>
+            <div class="row">
+              <div class="col-auto">
+                <span class="avatar">R</span>
+              </div>
+              <div class="col">
+                <div class="text-truncate">
+                  Reimburse for project <strong>Project</strong>
+                </div>
+                <div class="text-muted">yesterday</div>
+              </div>
+              <div class="col-auto align-self-center">
+                <p class="text-success">[open]</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="row">
+              <div class="col-auto">
+                <span class="avatar">A</span>
+              </div>
+              <div class="col">
+                <div class="text-truncate">
+                  Reimburse for project <strong>Project</strong>
+                </div>
+                <div class="text-muted">yesterday</div>
+              </div>
+              <div class="col-auto align-self-center">
+                <p class="text-success">[open]</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 col-lg-4 col-xs-12 col-sm-12">
+    <div class="row">
+      <div class="col-12 mb-3">
+        <div class="card">
+          <div class="card-body p-2 text-center">
+            <div class="text-end text-green">
+              <span class="text-green d-inline-flex align-items-center lh-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M3 12h4l3 8l4 -16l3 8h4" /></svg> </span>
+            </div>
+            <div class="h1 m-0">43</div>
+            <div class="text-muted mb-3">Total Your Projects</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mb-3">
+        <div class="card">
+          <div class="card-body p-2 text-center">
+            <div class="text-end text-green">
+              <span class="text-green d-inline-flex align-items-center lh-1">
+                6% <svg xmlns="http://www.w3.org/2000/svg" class="icon ms-1" width="24" height="24" viewBox="0 0 24 24"
+                  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <polyline points="3 17 9 11 13 15 21 7"></polyline>
+                  <polyline points="14 7 21 7 21 14"></polyline>
+                </svg>
+              </span>
+            </div>
+            <div class="h1 m-0">43</div>
+            <div class="text-muted mb-3">Total Your Project In Years</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mb-3">
+        <div class="card">
+          <div class="card-body p-2 text-center">
+            <div class="text-end text-red">
+              <span class="text-red d-inline-flex align-items-center lh-1">
+                -2% <svg xmlns="http://www.w3.org/2000/svg" class="icon ms-1" width="24" height="24" viewBox="0 0 24 24"
+                  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <polyline points="3 7 9 13 13 9 21 17"></polyline>
+                  <polyline points="21 10 21 17 14 17"></polyline>
+                </svg>
+              </span>
+            </div>
+            <div class="h1 m-0">95</div>
+            <div class="text-muted mb-3">Total Your Project With Status Close</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mb-3">
+        <div class="card">
+          <div class="card-body p-2 text-center">
+            <div class="text-end text-green">
+              <span class="text-green d-inline-flex align-items-center lh-1">
+                6% <svg xmlns="http://www.w3.org/2000/svg" class="icon ms-1" width="24" height="24" viewBox="0 0 24 24"
+                  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <polyline points="3 17 9 11 13 15 21 7"></polyline>
+                  <polyline points="14 7 21 7 21 14"></polyline>
+                </svg>
+              </span>
+            </div>
+            <div class="h1 m-0">43</div>
+            <div class="text-muted mb-3">Total Your Project With Status Open</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'frontend/base.html' %}
+{% load i18n static %}
+
+{% block content %}
+<div class="row row-cards">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Project Detail</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-auto">
+                        <h3>Client : </h3>
+                    </div>
+                    <div class="col-auto">
+                        <p class="text-left">{{ project.client|title }}</p>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <h3>Name : </h3>
+                    </div>
+                    <div class="col-auto">
+                        <p class="text-left">{{ project.name|title }}</p>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <h3>Description : </h3>
+                    </div>
+                    <div class="col-auto">
+                        <p class="text-justify">{{ project.description }}</p>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <h3>Start Date: </h3>
+                    </div>
+                    <div class="col-auto">
+                        <p class="text-left">{{ project.start_date }}</p>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <h3>End Date: </h3>
+                    </div>
+                    <div class="col-auto">
+                        <p class="text-left">{{ project.end_date }}</p>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <h3>Workers: </h3>
+                    </div>
+                    <div class="col-auto">
+                        <p class="text-left">[{{ project.workers|title }}]</p>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <h3>Status : </h3>
+                    </div>
+                    <div class="col-auto">
+                        <p class="text-left">{{ project.status|title }}</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

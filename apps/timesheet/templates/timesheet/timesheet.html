@@ -1,0 +1,117 @@
+{% extends "frontend/base.html" %}
+{% load static %}
+{% block extra_css %}
+<!-- Libs CSS -->    
+<link href="{% static 'vendor/fullcalendar/main.min.css' %}" rel="stylesheet" />
+<script src="{% static 'vendor/fullcalendar/main.min.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function getColor($value) {
+        $eventColor = '';
+        if ($value == 'work') {
+            $eventColor = '#0470C2 '
+        } else if ($value == 'leave'){
+            $eventColor = '#CE0AE1';
+        }else if ($value == 'sick'){
+            $eventColor = '#BE0E2B';
+        }else if ($value == 'learning'){
+            $eventColor = '#A1ADB1';
+        }else if ($value == 'sales support'){
+            $eventColor = '#D86917';
+        }else if ($value == 'office administrations'){
+            $eventColor = '#B31AE3';
+        }else if ($value == 'holiday'){
+            $eventColor = '#EE3CA5';
+        }else{
+            $eventColor = '#BE0E2B';
+        }
+        return $eventColor;
+    }
+
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      views: {
+
+        listDay: {
+          buttonText: 'list day'
+        },
+        listWeek: {
+          buttonText: 'list week'
+        },
+        listMonth: {
+          buttonText: 'list month'
+        }
+      },
+      headerToolbar: {
+        left: 'prev,next today',
+        right: 'title',
+      },
+      footerToolbar: {
+        left: 'dayGridWeek,dayGridMonth',
+        right: 'listDay,listWeek,listMonth',
+      },
+      titleFormat: {
+        year: 'numeric',
+        month: 'short'
+      },
+      //initialView: 'listDay',
+      initialDate: '{{ today|date:"Y-m-d" }}',
+      navLinks: true, // can click day/week names to navigate views
+      editable: false,
+      selectable: false,
+      events: [
+      {% for timesheet in timesheets %}
+        {
+          title : '{{ timesheet.activity|title }}',
+          start : '{{ timesheet.date|date:"Y-m-d" }}',
+          url   : '{% url "timesheet:timesheet-update" uuid=timesheet.uuid %}',
+          color : getColor('{{ timesheet.activity|lower }}')
+        },
+        {% endfor %}
+      ],
+      eventOverlap: function(stillEvent, movingEvent) {
+            return stillEvent.allDay && movingEvent.allDay;
+        },
+    });
+    calendar.render();
+  });
+</script>
+{% endblock extra_css %}
+{% block page_title_action %}
+<div class="col-auto ms-auto d-print-none">
+  <div class="d-flex">
+    <input type="search" class="form-control d-inline-block w-9 me-3" placeholder="Search…" />
+    <a href="{% url 'timesheet:timesheet-create' %}" class="btn btn-primary">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+        stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" /></svg>
+      New timesheet
+    </a>
+  </div>
+</div>
+{% endblock page_title_action %}
+{% block content %}
+{% if messages %}
+{% for message in messages  %}
+<div class="alert alert-important alert-{{ message.tags }} alert-dismissible" role="alert">
+  <div class="d-flex">
+    <div>
+      <!-- SVG icon code with class="alert-icon" -->
+    </div>
+    <div>
+      {{ message }}
+    </div>
+  </div>
+  <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+</div>
+{% endfor %}
+{% endif %}
+<div class="row">
+</div>
+<div class="row">
+  <div id='calendar' class="mt-4"></div>
+</div>
+{% endblock content %}
