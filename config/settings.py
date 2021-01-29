@@ -55,7 +55,6 @@ INSTALLED_APPS = [
 
   # Package Application
     'crispy_forms',
-    'djmoney',
     
     # Aplication
     'apps.account',
