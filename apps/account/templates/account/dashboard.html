@@ -21,11 +21,11 @@
       suffix: ' Projects Close'
     };
 
-    let companies = new CountUp('companies', 0, {{ company_count }}, 0, duration, companies_options);
-    let clients = new CountUp('clients', 0, {{ client_count }}, 0, duration, clients_options);
-    let projects = new CountUp('projects', 0, {{ project_count }}, 0, duration, projects_options);
-    let projects_open = new CountUp('projects_open', 0, {{ open_count}} , 0, duration, projects_open_options);
-    let projects_close = new CountUp('projects_close', 0, {{ close_count}}, 0, duration, projects_close_options);
+    let companies = new CountUp('companies', 0, {{ company_count|default:0 }}, 0, duration, companies_options);
+    let clients = new CountUp('clients', 0, {{ client_count|default:0 }}, 0, duration, clients_options);
+    let projects = new CountUp('projects', 0, {{ project_count|default:0 }}, 0, duration, projects_options);
+    let projects_open = new CountUp('projects_open', 0, {{ open_count|default:0 }} , 0, duration, projects_open_options);
+    let projects_close = new CountUp('projects_close', 0, {{ close_count|default:0 }}, 0, duration, projects_close_options);
 
     companies.start()
     clients.start()
